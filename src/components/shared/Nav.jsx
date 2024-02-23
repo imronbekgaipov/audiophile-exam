@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../hooks/useGlobalContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase/firebaseConfig";
 import MobileNav from "./MobileNav";
 import Cart from "./cart/Cart";
 import { motion } from "framer-motion";
@@ -17,7 +20,11 @@ const Backdrop = ({ onClick }) => (
 function MobileMenuButton({ onClick }) {
   return (
     <button className="lg:hidden" onClick={onClick}>
-      <img src="/assets/shared/mobile/hamburger.svg" alt="menu" />
+      <svg width="16" height="15" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#FFF" fill-rule="evenodd">
+          <path d="M0 0h16v3H0zM0 6h16v3H0zM0 12h16v3H0z" />
+        </g>
+      </svg>
     </button>
   );
 }
@@ -65,6 +72,18 @@ function Nav({ cartItemCount, setCartItemCount }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const { user, spinner } = useGlobalContext();
+  const [isPending, setIspending] = useState(false);
+  const handleLogout = () => {
+    setIspending(true);
+    signOut(auth)
+      .then(() => {
+        setIspending(false);
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
 
   function toggleMobileMenu() {
     setIsMobileMenuOpen(!isMobileMenuOpen);

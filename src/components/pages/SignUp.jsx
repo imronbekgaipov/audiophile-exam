@@ -24,17 +24,7 @@ function SignUp() {
   };
 
   return (
-    <div
-      className="relative h-screen
-    "
-    >
-      <video
-        className="absolute z-[-1] h-screen w-screen object-cover"
-        src={SignupVideo}
-        muted
-        autoPlay
-        loop
-      ></video>
+    <div className="relative h-screen">
       <div className="grid h-screen w-full place-items-center bg-black bg-opacity-60">
         <form
           ref={form}
@@ -97,7 +87,7 @@ function SignUp() {
               </div>
             </button>
 
-            <div className="flex justify-center  gap-2">
+            <div className="flex justify-center gap-2">
               <span className="text-gray-900 ">Do you have an account?</span>
               <Link to={"/login"}>
                 <button className="text-sky-600">Login</button>

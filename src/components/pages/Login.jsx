@@ -23,14 +23,6 @@ function Login() {
 
   return (
     <div className="relative grid h-screen place-items-center">
-      <video
-        className="absolute z-[-1] h-screen w-screen object-cover"
-        src={LoginVideo}
-        muted
-        autoPlay
-        loop
-      ></video>
-
       <div className="grid h-screen w-full place-items-center bg-black bg-opacity-60">
         <form
           onSubmit={handleSubmit}
