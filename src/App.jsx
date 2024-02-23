@@ -1,22 +1,8 @@
 import { useState } from "react";
-import { useEffect } from "react";
-import {
-  Routes,
-  Route,
-  useLocation,
-  Navigate,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import { useGlobalContext } from "./hooks/useGlobalContext";
-import RootLayout from "./layout/RootLayout";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebaseConfig";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // components
 import { ProtoctedRoutes } from "./components/pages/ProtoctedRoutes";
-import Login from "./components/pages/Login";
-import SignUp from "./components/pages/SignUp";
 import Nav from "./components/shared/Nav";
 import Home from "./components/pages/home/Home";
 import About from "./components/shared/About";
@@ -31,8 +17,7 @@ import Checkout from "./components/pages/Checkout";
 import store from "./redux/store";
 
 function App() {
-  const [cartItemCount, setCartItemCount, user, dispatch, isAuthReady] =
-    useState(0);
+  const [cartItemCount, setCartItemCount] = useState(0);
   const location = useLocation();
   const hideAbout = location.pathname === "/checkout";
 
@@ -40,14 +25,6 @@ function App() {
     <div className="App">
       <Nav cartItemCount={cartItemCount} setCartItemCount={setCartItemCount} />
       <Routes>
-        {/* <Route
-          path="/"
-          element={
-            <ProtoctedRoutes user={user}>
-              <RootLayout />
-            </ProtoctedRoutes>
-          }
-        /> */}
         <Route path="/" element={<Home />} />
         <Route path="/headphones" element={<Headphones />} />
         <Route path="/speakers" element={<Speakers />} />
@@ -57,26 +34,11 @@ function App() {
           element={<ProductDetails setCartItemCount={setCartItemCount} />}
         />
         <Route path="/checkout" element={<Checkout />} />
-        {/* <Route
-          path="/login"
-          element={user ? <Navigate to={"/"} /> : <Login />}
-        />
-        <Route
-          path="/signup"
-          element={user ? <Navigate to={"/"} /> : <SignUp />}
-        /> */}
       </Routes>
       {!hideAbout && <About />}
       <Footer />
     </div>
   );
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      dispatch({ type: "LOGIN", payload: user });
-      dispatch({ type: "IS_AUTH_READY" });
-    });
-  }, []);
-  return isAuthReady && <RouterProvider router={router} />;
 }
 
 export default App;

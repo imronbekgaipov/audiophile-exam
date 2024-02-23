@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../hooks/useGlobalContext";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase/firebaseConfig";
 import MobileNav from "./MobileNav";
 import Cart from "./cart/Cart";
 import { motion } from "framer-motion";
@@ -72,18 +69,6 @@ function Nav({ cartItemCount, setCartItemCount }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const { user, spinner } = useGlobalContext();
-  const [isPending, setIspending] = useState(false);
-  const handleLogout = () => {
-    setIspending(true);
-    signOut(auth)
-      .then(() => {
-        setIspending(false);
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
 
   function toggleMobileMenu() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
